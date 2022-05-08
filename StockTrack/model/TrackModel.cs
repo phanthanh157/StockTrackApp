@@ -182,7 +182,7 @@ namespace StockTrack.model
             }
         }
 
-        public JugdeColor _jugdeColor;
+        private JugdeColor _jugdeColor;
         public JugdeColor JugdeColor
         {
             get { return _jugdeColor; }
