@@ -73,6 +73,7 @@ namespace StockTrack.view
                 };
 
                 trackDataObj.Write(trackModel);
+                txtSearchSymbol.Editor.Text = string.Empty;
             }
         }
 
