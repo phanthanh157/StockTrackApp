@@ -79,7 +79,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Row="0" Grid.Column="0" Margin="7,0,0,0">
+        <Grid Grid.Row="0" Grid.Column="0" Margin="0,0,0,0">
             <wpf:AutoCompleteTextBox  VerticalAlignment="Center"
                                  Height="30"
                                  DisplayMember="code"
@@ -114,7 +114,7 @@
             </wpf:AutoCompleteTextBox>
         </Grid>
         <Grid Grid.Row="0" Grid.Column="1" Background="Transparent">
-            <Button x:Name="btnSettings" Click="SettingsOpen_Click" Margin="5,0,2,0" BorderThickness="0" Background="Transparent">
+            <Button x:Name="btnSettings" ToolTip="Settings" Click="SettingsOpen_Click" Margin="5,0,2,0" BorderThickness="0" Background="Transparent">
                 <Image Source="../image/settings.png" Width="25" Height="25"/>
             </Button>
         </Grid>

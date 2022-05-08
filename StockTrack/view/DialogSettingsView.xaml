@@ -41,7 +41,8 @@
                     Command="{Binding CommandDeleteDb}"
                     CommandParameter="{Binding ElementName=dialogSettings}"
                     Background="Transparent"
-                    BorderBrush="Pink">
+                    BorderBrush="Pink"
+                    ToolTip="Delete all symbols">
                 <Image Source="../image/delete-database.png" Width="25" Height="25"/>
             </Button>
             <Button x:Name="btnSave" Margin="5" VerticalAlignment="Center" 
@@ -49,13 +50,15 @@
                     Command="{Binding CommandSave}"
                     CommandParameter="{Binding ElementName=dialogSettings}"
                     Background="Transparent"
-                    BorderBrush="Pink">
+                    BorderBrush="Pink"
+                    ToolTip="Save">
                 <Image Source="../image/save.png" Width="25" Height="25"/>
             </Button>
             <Button x:Name="btnCancel" Margin="5" Padding="5"
                     Click="btnCancel_Click"
                     Background="Transparent"
-                    BorderBrush="Pink">
+                    BorderBrush="Pink"
+                    ToolTip="Cancel">
                 <Image Source="../image/cancel.png" Width="25" Height="25"/>
             </Button>
         </WrapPanel>

@@ -40,7 +40,8 @@
                     <WrapPanel>
                         <Image Source="{Binding StatusConnect,Converter={StaticResource ConvSrcImageConnect}}"
                                Width="20"
-                               Height="20"/>
+                               Height="20"
+                               ToolTip="Total Symbols"/>
                         <TextBlock Text="{Binding StatusConnect}" Foreground="White" VerticalAlignment="Center"/>
                     </WrapPanel>
                 </StatusBarItem>
