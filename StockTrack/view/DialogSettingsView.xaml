@@ -1,0 +1,63 @@
+﻿<Window x:Class="StockTrack.view.DialogSettingsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StockTrack.view"
+        x:Name="dialogSettings"
+        mc:Ignorable="d"
+        MinHeight="270"
+        MaxHeight="350"
+        MinWidth="450"
+        MaxWidth="500"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner"
+        Title="Settings">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Url code" Margin="5"/>
+        <TextBox x:Name="txtUrlCode" Text="{Binding UrlCode,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TextWrapping="Wrap" Height="60" Margin="5" Grid.Row="0" Grid.Column="1"/>
+
+        <Label Content="Url data" Margin="5" Grid.Row="1"/>
+        <TextBox x:Name="txtUrlData" Text="{Binding UrlData,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TextWrapping="Wrap" Height="60" Margin="5" Grid.Row="1" Grid.Column="1"/>
+
+        <Label Content="Interval Refresh(s)" Margin="5" Grid.Row="2"/>
+        <TextBox x:Name="txtIntervalRefresh" Text="{Binding IntervalRefresh,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Margin="5" Grid.Row="2" VerticalContentAlignment="Center" Width="50" HorizontalAlignment="Left" Grid.Column="1"/>
+
+        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="3" Grid.Column="1">
+            <Button x:Name="btnDeleteDb" Margin="5" VerticalAlignment="Center" 
+                    Padding="5" 
+                    Command="{Binding CommandDeleteDb}"
+                    CommandParameter="{Binding ElementName=dialogSettings}"
+                    Background="Transparent"
+                    BorderBrush="Pink">
+                <Image Source="../image/delete-database.png" Width="25" Height="25"/>
+            </Button>
+            <Button x:Name="btnSave" Margin="5" VerticalAlignment="Center" 
+                    Padding="5" 
+                    Command="{Binding CommandSave}"
+                    CommandParameter="{Binding ElementName=dialogSettings}"
+                    Background="Transparent"
+                    BorderBrush="Pink">
+                <Image Source="../image/save.png" Width="25" Height="25"/>
+            </Button>
+            <Button x:Name="btnCancel" Margin="5" Padding="5"
+                    Click="btnCancel_Click"
+                    Background="Transparent"
+                    BorderBrush="Pink">
+                <Image Source="../image/cancel.png" Width="25" Height="25"/>
+            </Button>
+        </WrapPanel>
+    </Grid>
+</Window>

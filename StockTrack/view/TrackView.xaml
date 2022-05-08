@@ -1,0 +1,261 @@
+﻿<UserControl x:Class="StockTrack.view.TrackView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StockTrack.view"
+             xmlns:conv="clr-namespace:StockTrack.view.cnv"
+             xmlns:wpf="http://wpfcontrols.com/"
+             xmlns:vmsearch="clr-namespace:StockTrack.symbols"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <conv:ConvMarketColor x:Key="ConvMarketColor"/>
+        <vmsearch:SearchSuggestionProvider x:Key="searchProvider"/>
+        <DataTemplate x:Key="searchTemplate">
+            <Border Padding="5" Background="#17202A" BorderBrush="Gray" BorderThickness="0 0 0 0.3">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="{Binding Path=code}"
+                               Grid.Row="0"
+                               FontFamily="Segoe UI"
+                               VerticalAlignment="Bottom"
+                               FontWeight="Bold"
+                               Foreground="#F5B041"/>
+                    <WrapPanel Grid.Row="1">
+                        <TextBlock Text="{Binding Path=floor,StringFormat= '[{0}]  '}"
+                               FontStyle="Normal"
+                               FontSize="11"
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Top"
+                               Foreground="PaleGreen"/>
+                        <TextBlock Text="{Binding Path=companyName}"
+                               FontSize="11"
+                               FontFamily="Segoe UI"
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Top"
+                               Foreground="WhiteSmoke"/>
+                    </WrapPanel>
+                    
+                </Grid>
+            </Border>
+        </DataTemplate>
+        <vmsearch:SearchTemplateSelector x:Key="SearchTemplateSelector"
+                                         SearchTempalte ="{StaticResource searchTemplate}"/>
+
+        <Style x:Key="dg_style_track" TargetType="DataGridCell">
+            <Setter Property="BorderThickness" Value="0.2,0.2,0,0"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="Wheat"/>
+            <!--<Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="LightBlue"/>
+                </Trigger>
+            </Style.Triggers>-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                        <Border Background="#17202A" 
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid Margin="0,2,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0" Margin="7,0,0,0">
+            <wpf:AutoCompleteTextBox  VerticalAlignment="Center"
+                                 Height="30"
+                                 DisplayMember="code"
+                                 ItemTemplateSelector="{StaticResource SearchTemplateSelector}"
+                                 Watermark="Add new track here"
+                                 IconPlacement="Left"
+                                 IconVisibility="Visible"
+                                 Provider="{StaticResource ResourceKey=searchProvider}"
+                                 x:Name="txtSearchSymbol"
+                                 KeyUp="txtSearchSymbol_KeyDown"
+                                 Background="White"
+                                 Focusable="True"
+                                 VerticalContentAlignment="Center"
+                                 FontSize="14"
+                                 Padding="5"
+                                >
+                <wpf:AutoCompleteTextBox.LoadingContent>
+                    <TextBlock Text="Loading..."
+                                           Margin="5"
+                                           FontSize="14" />
+                </wpf:AutoCompleteTextBox.LoadingContent>
+                <wpf:AutoCompleteTextBox.Icon>
+                    <Border Width="20" Height="20">
+                        <Image Source="../image/search.png"
+                                            Height="25"
+                                            Width="25"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Margin="2,0,-2,0"/>
+                    </Border>
+                </wpf:AutoCompleteTextBox.Icon>
+            </wpf:AutoCompleteTextBox>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="1" Background="Transparent">
+            <Button x:Name="btnSettings" Click="SettingsOpen_Click" Margin="5,0,2,0" BorderThickness="0" Background="Transparent">
+                <Image Source="../image/settings.png" Width="25" Height="25"/>
+            </Button>
+        </Grid>
+        <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="0 2 0 0" Background="#17202A">
+            <DataGrid x:Name="dgCompany" ItemsSource="{Binding TrackModels}" 
+                      GridLinesVisibility="None" 
+                      SelectionUnit="FullRow" CellStyle="{StaticResource dg_style_track}"
+                      CanUserAddRows="False"
+                      AutoGenerateColumns="False"
+                      Background="#17202A">
+                <DataGrid.Resources>
+                    <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}" >
+                        <Setter Property="Background" Value="#17202A" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderBrush" Value="Gray"/>
+                        <Setter Property="BorderThickness" Value="1 0 1 0"/>
+                        <Setter Property="Margin" Value="-1,-1,0,0" />
+                        <Setter Property="Height" Value="25" />
+                        <Setter Property="Width" Value="auto"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    </Style>
+                </DataGrid.Resources>
+
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Notify" Width="45" >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Notify, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Center" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="Symbol" SortMemberPath="Symbol" Width="70" >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Symbol}" 
+                                           Foreground="{Binding JugdeColor,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,Converter={StaticResource ConvMarketColor}}"
+                                           FontWeight="Bold" 
+                                           ToolTip="{Binding Company,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="Pri" Width="70" SortMemberPath="LastPrice">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding LastPrice,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="Vol" Width="70" SortMemberPath="LastVolume" >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding LastVolume,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="-/+" Width="50" SortMemberPath="OT" >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding OT,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTextColumn Header="Target Buy" Width="85" FontWeight="Medium" Binding="{Binding Target1,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,Delay=1000}"/>
+                    <DataGridTextColumn Header="Target Sale" Width="85"  FontWeight="Medium"  Binding="{Binding Target2,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,Delay=1000}"/>
+                </DataGrid.Columns>
+
+                <DataGrid.RowDetailsTemplate>
+                    <DataTemplate>
+                        <DockPanel Background="#1C2833">
+                            <Image DockPanel.Dock="Left" Source="../image/info.png" Margin="10"/>
+                            <Grid Margin="0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Symbol: " FontWeight="Bold"  Foreground="Gray"/>
+                                <TextBlock Text="{Binding Symbol}" FontWeight="Bold" Foreground="{Binding JugdeColor,Converter={StaticResource ConvMarketColor}}" Grid.Column="1" />
+
+                                <TextBlock Text="Company: " FontWeight="Bold" Foreground="Gray" Grid.Row="1"/>
+                                <WrapPanel Grid.Row="1" Grid.Column="1">
+                                    <TextBlock Text="{Binding ShortName, StringFormat= ' {0}-'}" Foreground="White" Grid.Row="1" Grid.Column="1" />
+                                    <TextBlock Text="{Binding CompanyFloor}" Foreground="PaleGreen" FontWeight="Bold" Grid.Row="1" Grid.Column="1" />
+                                </WrapPanel>
+
+                                <Grid Grid.Row="2" Grid.ColumnSpan="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Floor: " FontWeight="Bold" Grid.Row="0" Foreground="Gray" />
+                                    <TextBlock Text="{Binding Floor}" Foreground="Cyan" FontWeight="Bold" Grid.Column="1" Grid.Row="0" />
+
+                                    <TextBlock Text="Ref: " FontWeight="Bold" Grid.Row="1"  Foreground="Gray"/>
+                                    <TextBlock Text="{Binding Ref}" Grid.Column="1" Grid.Row="1" Foreground="Yellow" FontWeight="Bold"/>
+
+                                    <TextBlock Text="Ceil: " FontWeight="Bold" Grid.Row="2" Foreground="Gray"/>
+                                    <TextBlock Text="{Binding Ceil}" Grid.Column="1" Grid.Row="2" Foreground="Pink" FontWeight="Bold"/>
+                                    
+
+                                    <TextBlock Text="Vol: " FontWeight="Bold" Grid.Row="0" Grid.Column="2" Foreground="Gray" />
+                                    <TextBlock Text="{Binding LastVolume}" 
+                                               Foreground="{Binding JugdeColor,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,Converter={StaticResource ConvMarketColor}}"
+                                               FontWeight="Bold" Grid.Column="3" Grid.Row="0" />
+
+                                    <TextBlock Text="Pri: " FontWeight="Bold" Grid.Row="1" Grid.Column="2" Foreground="Gray"/>
+                                    <TextBlock Text="{Binding LastPrice}" Grid.Column="3" Grid.Row="1" 
+                                               Foreground="{Binding JugdeColor,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,Converter={StaticResource ConvMarketColor}}"
+                                               FontWeight="Bold"/>
+
+                                    <TextBlock Text="+/-: " FontWeight="Bold" Grid.Row="2" Grid.Column="2" Foreground="Gray"/>
+                                    <TextBlock Text="{Binding OT}" Grid.Column="3" Grid.Row="2" 
+                                               Foreground="{Binding JugdeColor,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,Converter={StaticResource ConvMarketColor}}" 
+                                               FontWeight="Bold"/>
+                                </Grid>
+                            </Grid>
+                        </DockPanel>
+                    </DataTemplate>
+                </DataGrid.RowDetailsTemplate>
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Remove" Click="CommandRemoveTrack_Click"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</UserControl>

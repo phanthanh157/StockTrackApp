@@ -1,0 +1,58 @@
+﻿<Window x:Class="StockTrack.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StockTrack"
+        xmlns:conv="clr-namespace:StockTrack.view.cnv"
+        mc:Ignorable="d"
+        xmlns:view="clr-namespace:StockTrack.view"
+        MinHeight="550"
+        MinWidth="450"
+        MaxWidth="500"
+        Background="#17202A"
+        Title="StockTrack" >
+    <Window.Resources>
+        <conv:ConvSrcImageConnect x:Key="ConvSrcImageConnect"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <view:TrackView />
+        <Grid Grid.Row="1">
+            <StatusBar Background="#17202A">
+                <StatusBar.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="100" />
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                    </ItemsPanelTemplate>
+                </StatusBar.ItemsPanel>
+                <StatusBarItem Grid.Column="0">
+                    <WrapPanel>
+                        <Image Source="{Binding StatusConnect,Converter={StaticResource ConvSrcImageConnect}}"
+                               Width="20"
+                               Height="20"/>
+                        <TextBlock Text="{Binding StatusConnect}" Foreground="White" VerticalAlignment="Center"/>
+                    </WrapPanel>
+                </StatusBarItem>
+                <StatusBarItem Grid.Column="1">
+                    <WrapPanel>
+                        <Image Source="./image/sum.png"
+                               Width="20"
+                               Height="20"/>
+                        <TextBlock Text="{Binding TotalSymbols}" Foreground="White" VerticalAlignment="Center"/>
+                    </WrapPanel>
+                </StatusBarItem>
+            </StatusBar>
+        </Grid>
+    </Grid>
+</Window>
