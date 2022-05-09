@@ -11,7 +11,9 @@
         MinWidth="450"
         MaxWidth="500"
         Background="#17202A"
-        Title="StockTrack" >
+        Title="StockTrack" 
+        WindowStyle="None"
+       >
     <Window.Resources>
         <conv:ConvSrcImageConnect x:Key="ConvSrcImageConnect"/>
     </Window.Resources>
@@ -22,7 +24,7 @@
         </Grid.RowDefinitions>
         <view:TrackView />
         <Grid Grid.Row="1">
-            <StatusBar Background="#17202A">
+            <StatusBar Background="#17202A" MouseDown="StatusBar_MouseDown">
                 <StatusBar.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Grid>

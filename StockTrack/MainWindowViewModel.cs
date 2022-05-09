@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Windows.Input;
+using StockTrack.command;
 
 namespace StockTrack
 {
@@ -7,6 +9,7 @@ namespace StockTrack
         private static readonly log4net.ILog log = LogHelper.GetLogger();
         private static readonly Lazy<MainWindowViewModel> _lazy = new Lazy<MainWindowViewModel>(() => new MainWindowViewModel());
 
+ 
         private MainWindowViewModel()
         {
             InitClass();

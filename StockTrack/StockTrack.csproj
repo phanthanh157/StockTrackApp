@@ -191,5 +191,11 @@
   <ItemGroup>
     <Resource Include="image\remove.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="image\minimize-window.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="image\close-window.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

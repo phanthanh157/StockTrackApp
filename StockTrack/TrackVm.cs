@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Input;
+using StockTrack.command;
 using StockTrack.model;
 
 
@@ -36,6 +38,46 @@ namespace StockTrack
             {
                 return _lazy.Value;
             }
+        }
+
+        private ICommand _commandMinimized;
+        public ICommand CommandMinimized
+        {
+            get
+            {
+                if (_commandMinimized == null)
+                {
+                    _commandMinimized = new RelayCommand(x => CommandMinimizedHandler());
+                }
+                return _commandMinimized;
+            }
+        }
+
+        private void CommandMinimizedHandler()
+        {
+            var wnd = App.Current.MainWindow;
+
+            wnd.WindowState = System.Windows.WindowState.Minimized;
+        }
+
+        private ICommand _commandCloseWindow;
+        public ICommand CommandCloseWindow
+        {
+            get
+            {
+                if (_commandCloseWindow == null)
+                {
+                    _commandCloseWindow = new RelayCommand(x => CommandCloseWindowHandler());
+                }
+                return _commandCloseWindow;
+            }
+        }
+
+        private void CommandCloseWindowHandler()
+        {
+            var wnd = App.Current.MainWindow;
+
+            wnd.Close();
         }
 
         private TrackVm()
@@ -227,7 +269,7 @@ namespace StockTrack
                     //Jugde Color
                     if(stockPrice.lastPrice == stockPrice.c)
                     {
-                        TrackModels[idx].JugdeColor = JugdeColor.Cyan;
+                        TrackModels[idx].JugdeColor = JugdeColor.Pink;
                     }
                     else if(stockPrice.lastPrice < stockPrice.c &&
                              stockPrice.lastPrice > stockPrice.r)
@@ -245,7 +287,7 @@ namespace StockTrack
                     }
                     else if(stockPrice.lastPrice == stockPrice.f)
                     {
-                        TrackModels[idx].JugdeColor = JugdeColor.Pink;
+                        TrackModels[idx].JugdeColor = JugdeColor.Cyan;
                     }
                     else
                     {
