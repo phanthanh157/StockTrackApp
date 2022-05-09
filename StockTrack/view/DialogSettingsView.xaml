@@ -43,6 +43,7 @@
                     CommandParameter="{Binding ElementName=dialogSettings}"
                     Background="Transparent"
                     BorderBrush="Pink"
+                    BorderThickness="0"
                     ToolTip="Delete all symbols">
                 <Image Source="../image/delete-database.png" Width="25" Height="25"/>
             </Button>
@@ -52,6 +53,7 @@
                     CommandParameter="{Binding ElementName=dialogSettings}"
                     Background="Transparent"
                     BorderBrush="Pink"
+                    BorderThickness="0"
                     ToolTip="Save">
                 <Image Source="../image/save.png" Width="25" Height="25"/>
             </Button>
@@ -59,6 +61,7 @@
                     Click="btnCancel_Click"
                     Background="Transparent"
                     BorderBrush="Pink"
+                    BorderThickness="0"
                     ToolTip="Cancel">
                 <Image Source="../image/cancel.png" Width="25" Height="25"/>
             </Button>

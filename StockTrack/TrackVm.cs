@@ -264,10 +264,23 @@ namespace StockTrack
 
                     TrackModels[idx].LastPrice = stockPrice.lastPrice;
                     TrackModels[idx].LastVolume = stockPrice.lastVolume;
-                    TrackModels[idx].OT = stockPrice.ot;
+
+                    if (stockPrice.lastPrice > stockPrice.r)
+                    {
+                        TrackModels[idx].OT = "+" + stockPrice.ot;
+                    }
+                    else if (stockPrice.lastPrice == stockPrice.r)
+                    {
+                        TrackModels[idx].OT =  stockPrice.ot;
+                    }
+                    else
+                    {
+                        TrackModels[idx].OT = "-" + stockPrice.ot;
+                    }
+
 
                     //Jugde Color
-                    if(stockPrice.lastPrice == stockPrice.c)
+                    if (stockPrice.lastPrice == stockPrice.c)
                     {
                         TrackModels[idx].JugdeColor = JugdeColor.Pink;
                     }

@@ -117,13 +117,13 @@
             <Button x:Name="btnSettings" ToolTip="Settings" Click="SettingsOpen_Click" Margin="5,0,2,0" BorderThickness="0" Background="Transparent">
                 <Image Source="../image/settings.png" Width="25" Height="25"/>
             </Button>
-            <Button x:Name="btnMinimized" ToolTip="Minimized" 
+            <Button x:Name="btnMinimized" ToolTip="Minimized Window" 
                     Margin="5,0,2,0"
                     Command="{Binding CommandMinimized}"
                     BorderThickness="0" Background="Transparent">
                 <Image Source="../image/minimize-window.png" Width="25" Height="25"/>
             </Button>
-            <Button x:Name="btnClose" ToolTip="Minimized" 
+            <Button x:Name="btnClose" ToolTip="Close Window" 
                     Margin="5,0,2,0"
                     Command="{Binding CommandCloseWindow}"
                     BorderThickness="0" Background="Transparent">
