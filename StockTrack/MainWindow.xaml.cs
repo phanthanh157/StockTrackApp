@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using StockTrack.charts.line;
 
 namespace StockTrack
 {
@@ -35,6 +36,12 @@ namespace StockTrack
         {
             if (e.ChangedButton == MouseButton.Left)
                 this.DragMove();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            LineChartView lineChartView = new LineChartView();
+            lineChartView.Show();
         }
     }
 }
