@@ -10,6 +10,8 @@ namespace StockTrack
         private static readonly Lazy<MainWindowViewModel> _lazy = new Lazy<MainWindowViewModel>(() => new MainWindowViewModel());
         private int _totalSymbols;
         private StatusConnected _statusConnect;
+        private TrackVm _trackVm = null;
+        private TrackData _trackData = null;
         private MainWindowViewModel()
         {
             InitClass();
@@ -55,9 +57,11 @@ namespace StockTrack
         {
             StatusConnect = StatusConnected.Disconnected;
 
-            TrackData trackData = TrackData.Instance;
-            trackData.EventTrackData += TrackData_EventTrackData;
-            TotalSymbols = trackData.TotalSymbols();
+            _trackData = TrackData.Instance;
+            _trackVm = TrackVm.Instance;
+
+            _trackData.EventTrackData += TrackData_EventTrackData;
+            TotalSymbols = _trackData.TotalSymbols();
 
         }
 
@@ -84,17 +88,13 @@ namespace StockTrack
 
         public void ExcuteTask()
         {
-            TrackVm track = TrackVm.Instance;
-
-
-            track.RunTrack();
-
+            _trackVm.RunTrack();
         }
 
         public void CloseTask()
         {
-            TrackVm track = TrackVm.Instance;
-            track.CancelTrack();
+            _trackData.EventTrackData -= TrackData_EventTrackData;
+            _trackVm.CancelTrack();
         }
 
 
