@@ -160,7 +160,7 @@ namespace StockTrack
 
             if(qa == MessageBoxResult.Yes)
             {
-                trackData.DeleteAll();
+                trackData.RemoveAllTrack();
                 settingDialog.Close();
             }
            

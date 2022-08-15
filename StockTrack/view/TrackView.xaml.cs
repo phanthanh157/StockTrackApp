@@ -47,7 +47,7 @@ namespace StockTrack.view
                 var trackDataObj = TrackData.Instance;
  
 
-                if(trackDataObj.CheckExits(symbol))
+                if(trackDataObj.Exits(symbol))
                 {
                     //MessageBox.Show("Symbol: [" + symbol + "] with type: [" + buyOrSale.ToString() + "] is exits!", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     MsgBox.Instance.Show("Symbol: [" + symbol + "]  is exits!", TypeMsgBox.Warning);
@@ -72,7 +72,7 @@ namespace StockTrack.view
                     JugdeColor = JugdeColor.Gray
                 };
 
-                trackDataObj.Write(trackModel);
+                trackDataObj.AddTrack(trackModel);
                 txtSearchSymbol.Editor.Text = string.Empty;
             }
         }

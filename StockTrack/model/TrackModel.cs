@@ -116,6 +116,7 @@ namespace StockTrack.model
                 }
             }
         }
+
         private string _ot;
         public string OT
         {
@@ -208,7 +209,7 @@ namespace StockTrack.model
         {
             // log.DebugFormat("symbol = {2}, target1 = {0}; target2 = {1}", this.Target1,this.Target2,this.Symbol);
             TrackData trackData = TrackData.Instance;
-            trackData.Update(this);
+            trackData.EditTrack(this);
         }
 
     }

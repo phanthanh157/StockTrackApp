@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using StockTrack.command;
@@ -109,14 +110,10 @@ namespace StockTrack
         {
             TrackData trackData = TrackData.Instance;
 
-            var data = trackData.Read();
+            var data = trackData.GetData();
             if (data != null)
             {
-                data.ForEach(x =>
-                {
-                    TrackModels.Add(x);
-                });
-
+                data.ForEach(x =>TrackModels.Add(x));
                 Symbols = data.Select(it => it.Symbol).ToArray();
             }
 
@@ -127,29 +124,29 @@ namespace StockTrack
 
             switch (e.Resutls)
             {
-                case TrackDataResult.WriteSuccess:
+                case TrackDataResult.AddSuccess:
                     MsgBox.Instance.Show("Add symbol [" + e.Data.Symbol + "] successfull!", TypeMsgBox.Success);
                     TrackModels.Add(e.Data);
                     Symbols = TrackModels.Select(it => it.Symbol).ToArray();
                     break;
-                case TrackDataResult.WriteFailed:
-                    MsgBox.Instance.Show("Add symbol [" + e.Data.Symbol + "] failed!", TypeMsgBox.Error);
-                    break;
-                case TrackDataResult.DeleteSuccess:
+                //case TrackDataResult.WriteFailed:
+                //    MsgBox.Instance.Show("Add symbol [" + e.Data.Symbol + "] failed!", TypeMsgBox.Error);
+                //    break;
+                case TrackDataResult.RemoveSuccess:
                     MsgBox.Instance.Show("Remove symbol [" + e.Data.Symbol + "] successfull!", TypeMsgBox.Success);
                     TrackModels.Remove(e.Data);
                     Symbols = TrackModels.Select(it => it.Symbol).ToArray();
                     break;
-                case TrackDataResult.DeleteFailed:
+                case TrackDataResult.RemoveFailed:
                     MsgBox.Instance.Show("Remove symbol [" + e.Data.Symbol + "]  failed!", TypeMsgBox.Error);
                     break;
-                case TrackDataResult.UpdateSuccess:
+                case TrackDataResult.EditSuccess:
                     MsgBox.Instance.Show("Update symbol [" + e.Data.Symbol + "] successfull!", TypeMsgBox.Success);
                     break;
-                case TrackDataResult.UpdateFailed:
+                case TrackDataResult.EditFailed:
                     MsgBox.Instance.Show("Update symbol [" + e.Data.Symbol + "] failed!", TypeMsgBox.Error);
                     break;
-                case TrackDataResult.DeleteAllSuccess:
+                case TrackDataResult.RemovelAll:
                     MsgBox.Instance.Show("Clear all symbols", TypeMsgBox.Information);
                     TrackModels.Clear();
                     break;
@@ -190,6 +187,12 @@ namespace StockTrack
         {
             //get stock info
             StockInfos = await CollectData.GetStockInfo();
+
+            if(StockInfos is null)
+            {
+                MessageBox.Show("Cannot get company info", "Notify", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+            }
 
             while (true)
             {
@@ -326,7 +329,7 @@ namespace StockTrack
         public void RemoveTrack(TrackModel model)
         {
             var trackData = TrackData.Instance;
-            trackData.Delete(model);
+            trackData.RemoveTrack(model);
         }
 
     }

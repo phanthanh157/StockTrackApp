@@ -14,12 +14,25 @@ namespace StockTrack
         {
             log.Info("--START STOCKTRACK APPLICATION--");
             base.OnStartup(e);
-          
+
+            var trackData = TrackData.Instance;
+            bool loadTrack = trackData.LoadAllTrack();
+            if (!loadTrack)
+            {
+                log.Error("Load track failed!");
+
+                System.Environment.Exit(0);
+            }
+
             MainWindow window = new MainWindow();
             var mainVm = MainWindowViewModel.Instance;
+          
+
+          
 
             window.Closed += (sender,ev) =>
             {
+                trackData.Save();
                 mainVm.CloseTask();
                 log.Info("--END STOCKTRACK APPLICATION--");
             };

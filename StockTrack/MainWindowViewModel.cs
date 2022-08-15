@@ -8,8 +8,8 @@ namespace StockTrack
     {
         private static readonly log4net.ILog log = LogHelper.GetLogger();
         private static readonly Lazy<MainWindowViewModel> _lazy = new Lazy<MainWindowViewModel>(() => new MainWindowViewModel());
-
- 
+        private int _totalSymbols;
+        private StatusConnected _statusConnect;
         private MainWindowViewModel()
         {
             InitClass();
@@ -24,7 +24,6 @@ namespace StockTrack
             }
         }
 
-        private StatusConnected _statusConnect;
         public StatusConnected StatusConnect
         {
             get { return _statusConnect; }
@@ -38,7 +37,6 @@ namespace StockTrack
             }
         }
 
-        private int _totalSymbols;
         public int TotalSymbols
         {
             get { return _totalSymbols; }
@@ -72,10 +70,10 @@ namespace StockTrack
 
             switch (e.Resutls)
             {
-                case TrackDataResult.WriteSuccess:
+                case TrackDataResult.AddSuccess:
                     TotalSymbols += 1;
                     break;
-                case TrackDataResult.DeleteSuccess:
+                case TrackDataResult.RemoveSuccess:
                     TotalSymbols -= 1;
                     break;
                 default:
@@ -87,6 +85,8 @@ namespace StockTrack
         public void ExcuteTask()
         {
             TrackVm track = TrackVm.Instance;
+
+
             track.RunTrack();
 
         }
