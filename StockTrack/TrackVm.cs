@@ -76,9 +76,7 @@ namespace StockTrack
 
         private void CommandCloseWindowHandler()
         {
-            var wnd = App.Current.MainWindow;
-
-            wnd.Close();
+            App.Current.MainWindow.Close();
         }
 
         private TrackVm()
@@ -179,8 +177,6 @@ namespace StockTrack
         {
             _tokenSource.Cancel();
             _tokenSource.Dispose();
-            _tokenSource = new CancellationTokenSource();
-            _token = _tokenSource.Token;
         }
 
         private async Task PeriodTrackAsync(TimeSpan interval, CancellationToken cancellationToken)
@@ -190,8 +186,9 @@ namespace StockTrack
 
             if(StockInfos is null)
             {
-                // MessageBox.Show("Cannot get company info", "Notify", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Cannot get company info\n. Please check api get stock info", "Notify", MessageBoxButton.OK, MessageBoxImage.Warning);
                 log.Warn("Cannot get company info");
+                //chuc nang check normal
             }
 
             while (true)
@@ -209,9 +206,11 @@ namespace StockTrack
             {
                 decimal lastPrice = track.LastPrice;
 
-                if (!track.Notify) return;
+                if (!track.Notify)
+                    return;
 
-                if (MainWindowViewModel.Instance.StatusConnect == StatusConnected.Disconnected) return;
+                if (MainWindowViewModel.Instance.StatusConnect == StatusConnected.Disconnected)
+                    return;
 
                 if (track.Target1 >= lastPrice &&
                    track.Target1 > 0 )
@@ -242,7 +241,7 @@ namespace StockTrack
 
             if (newPrice is null)
             {
-                log.Error("get data prices is null");
+                log.Warn("get data prices is null");
                 MainWindowViewModel.Instance.StatusConnect = StatusConnected.Disconnected;
                 return;
             }
@@ -272,7 +271,7 @@ namespace StockTrack
                     }
                     else if (stockPrice.lastPrice == stockPrice.r)
                     {
-                        TrackModels[idx].OT =  stockPrice.ot;
+                        TrackModels[idx].OT = stockPrice.ot;
                     }
                     else
                     {
@@ -314,13 +313,10 @@ namespace StockTrack
 
         public StockCompany GetCompany(string symbols)
         {
-            if (StockInfos == null) return null;
+            if (StockInfos == null) 
+                return null;
 
-            var companies = StockInfos.data;
-
-            var filter = companies.Where((it) => it.code == symbols).FirstOrDefault();
-
-            return filter;
+            return StockInfos.data?.Where((it) => it.code == symbols).FirstOrDefault();
         }
 
 

@@ -62,7 +62,7 @@ namespace StockTrack
 
                     using (var response = new HttpClient())
                     {
-                        var content = await response.GetAsync(url);
+                        var content = await response.GetAsync(url,HttpCompletionOption.ResponseContentRead);
                         //content.EnsureSuccessStatusCode();
 
                         if (content.IsSuccessStatusCode)

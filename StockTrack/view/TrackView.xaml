@@ -136,7 +136,8 @@
                       SelectionUnit="FullRow" CellStyle="{StaticResource dg_style_track}"
                       CanUserAddRows="False"
                       AutoGenerateColumns="False"
-                      Background="#17202A">
+                      Background="#17202A"
+                      BorderThickness="0 0.5 0 0.5">
                 <DataGrid.Resources>
                     <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}" >
                         <Setter Property="Background" Value="#17202A" />
