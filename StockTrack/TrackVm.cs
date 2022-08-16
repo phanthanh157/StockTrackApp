@@ -141,7 +141,7 @@ namespace StockTrack
                     MsgBox.Instance.Show("Remove symbol [" + e.Data.Symbol + "]  failed!", TypeMsgBox.Error);
                     break;
                 case TrackDataResult.EditSuccess:
-                    MsgBox.Instance.Show("Update symbol [" + e.Data.Symbol + "] successfull!", TypeMsgBox.Success);
+                    //MsgBox.Instance.Show("Update symbol [" + e.Data.Symbol + "] successfull!", TypeMsgBox.Success);
                     break;
                 case TrackDataResult.EditFailed:
                     MsgBox.Instance.Show("Update symbol [" + e.Data.Symbol + "] failed!", TypeMsgBox.Error);
@@ -190,14 +190,12 @@ namespace StockTrack
 
             if(StockInfos is null)
             {
-                MessageBox.Show("Cannot get company info", "Notify", MessageBoxButton.OK, MessageBoxImage.Warning);
-
+                // MessageBox.Show("Cannot get company info", "Notify", MessageBoxButton.OK, MessageBoxImage.Warning);
+                log.Warn("Cannot get company info");
             }
 
             while (true)
             {
-                //log.Info("task running ....");
-
                 await Monitoring();
                 Notify();
                 await Task.Delay(interval, cancellationToken); //0.5s
