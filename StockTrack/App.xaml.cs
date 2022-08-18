@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 namespace StockTrack
@@ -26,11 +25,11 @@ namespace StockTrack
 
             MainWindow window = new MainWindow();
             var mainVm = MainWindowViewModel.Instance;
-          
 
-          
 
-            window.Closed += (sender,ev) =>
+
+
+            window.Closed += (sender, ev) =>
             {
                 trackData.Save();
                 mainVm.CloseTask();
@@ -39,11 +38,11 @@ namespace StockTrack
 
             MsgBox.Instance.InitClass();
 
-         
+
             mainVm.ExcuteTask();
             window.DataContext = mainVm;
 
-          
+
             window.Show();
         }
     }

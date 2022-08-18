@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Newtonsoft.Json;
+using StockTrack.common;
 using StockTrack.model;
 
 namespace StockTrack
@@ -42,21 +42,14 @@ namespace StockTrack
             _trackDatas = new List<TrackModel>();
         }
 
-        public static TrackData Instance
-        {
-            get
-            {
-                return lazy_.Value;
-            }
-        }
+        public static TrackData Instance => lazy_.Value;
 
         public bool LoadAllTrack()
         {
             bool ret = true;
             try
             {
-                bool fileExits = File.Exists(file_path_);
-                if (!fileExits)
+                if (!File.Exists(file_path_))
                 {
                     using (File.Create(file_path_))
                     {
@@ -67,7 +60,7 @@ namespace StockTrack
                 string json = File.ReadAllText(file_path_);
                 _trackDatas = JsonConvert.DeserializeObject<List<TrackModel>>(json);
             }
-            catch 
+            catch
             {
                 ret = false;
             }
@@ -83,19 +76,15 @@ namespace StockTrack
 
         internal void Save()
         {
-            if (_trackDatas is null)
-                return;
+            Utils.Check(_trackDatas);
 
-            log.Info("Save TrackData");
-
-            string jsonOutput = JsonConvert.SerializeObject(_trackDatas, Formatting.Indented);
+            string jsonOutput = JsonConvert.SerializeObject(_trackDatas, Formatting.None);
             File.WriteAllText(file_path_, jsonOutput);
         }
 
         internal void AddTrack(TrackModel trackModel)
         {
-            if (_trackDatas is null)
-                return;
+            Utils.Check(_trackDatas);
 
             _trackDatas.Add(trackModel);
             OnEventTrackData(new TrackDataArgs()
@@ -121,7 +110,7 @@ namespace StockTrack
 
             int index = _trackDatas.IndexOf(trackModel);
 
-            if(index != -1)
+            if (index != -1)
             {
                 _trackDatas.Remove(trackModel);
                 OnEventTrackData(new TrackDataArgs()
@@ -147,26 +136,21 @@ namespace StockTrack
 
             int index = _trackDatas.IndexOf(trackModel);
 
-            if(index != -1)
+            bool editResult = false;
+            if (index != -1)
             {
-                _trackDatas[index].Notify  = trackModel.Notify;
+                _trackDatas[index].Notify = trackModel.Notify;
                 _trackDatas[index].Target1 = trackModel.Target1;
                 _trackDatas[index].Target2 = trackModel.Target2;
+                editResult = true;
+            }
 
-                OnEventTrackData(new TrackDataArgs()
-                {
-                    Resutls = TrackDataResult.EditSuccess,
-                    Data = trackModel
-                });
-            }
-            else
+            OnEventTrackData(new TrackDataArgs()
             {
-                OnEventTrackData(new TrackDataArgs()
-                {
-                    Resutls = TrackDataResult.EditFailed,
-                    Data = trackModel
-                });
-            }
+                Resutls = editResult ? TrackDataResult.EditSuccess : TrackDataResult.EditFailed,
+                Data = trackModel
+            });
+
         }
 
 

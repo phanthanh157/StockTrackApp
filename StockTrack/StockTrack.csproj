@@ -91,6 +91,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Base.cs" />
+    <Compile Include="common\Utils.cs" />
     <Compile Include="charts\line\LineChartView.xaml.cs">
       <DependentUpon>LineChartView.xaml</DependentUpon>
     </Compile>

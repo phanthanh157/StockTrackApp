@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Windows.Input;
-using StockTrack.command;
 
 namespace StockTrack
 {
@@ -12,19 +10,9 @@ namespace StockTrack
         private StatusConnected _statusConnect;
         private TrackVm _trackVm = null;
         private TrackData _trackData = null;
-        private MainWindowViewModel()
-        {
-            InitClass();
+        private MainWindowViewModel() => InitClass();
 
-        }
-
-        public static MainWindowViewModel Instance
-        {
-            get
-            {
-                return _lazy.Value;
-            }
-        }
+        public static MainWindowViewModel Instance => _lazy.Value;
 
         public StatusConnected StatusConnect
         {
@@ -67,7 +55,7 @@ namespace StockTrack
 
         private void TrackData_EventTrackData(object sender, TrackDataArgs e)
         {
-            if(e is null)
+            if (e is null)
             {
                 log.Error("track data is null");
             }

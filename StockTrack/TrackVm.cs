@@ -100,8 +100,8 @@ namespace StockTrack
 
         private void SettingVm_SaveChanged(object sender, EventArgs e)
         {
-            CancelTrack();
-            RunTrack();
+            // CancelTrack();
+            // RunTrack();
         }
 
         private void LoadData()
@@ -111,7 +111,7 @@ namespace StockTrack
             var data = trackData.GetData();
             if (data != null)
             {
-                data.ForEach(x =>TrackModels.Add(x));
+                data.ForEach(x => TrackModels.Add(x));
                 Symbols = data.Select(it => it.Symbol).ToArray();
             }
 
@@ -184,7 +184,7 @@ namespace StockTrack
             //get stock info
             StockInfos = await CollectData.GetStockInfo();
 
-            if(StockInfos is null)
+            if (StockInfos is null)
             {
                 MessageBox.Show("Cannot get company info\n. Please check api get stock info", "Notify", MessageBoxButton.OK, MessageBoxImage.Warning);
                 log.Warn("Cannot get company info");
@@ -213,7 +213,7 @@ namespace StockTrack
                     return;
 
                 if (track.Target1 >= lastPrice &&
-                   track.Target1 > 0 )
+                   track.Target1 > 0)
                 {
                     Notification.Instance.ShowSucess("Buy : " + track.Symbol +
                                                      "__" + track.LastPrice + "/" + track.Target1 +
@@ -221,7 +221,7 @@ namespace StockTrack
                                                      "__" + track.OT,
                                                 "" + track.Company, true);
                 }
-               
+
                 if (track.Target2 <= lastPrice &&
                          track.Target2 > 0)
                 {
@@ -284,12 +284,12 @@ namespace StockTrack
                     {
                         TrackModels[idx].JugdeColor = JugdeColor.Pink;
                     }
-                    else if(stockPrice.lastPrice < stockPrice.c &&
+                    else if (stockPrice.lastPrice < stockPrice.c &&
                              stockPrice.lastPrice > stockPrice.r)
                     {
                         TrackModels[idx].JugdeColor = JugdeColor.Green;
                     }
-                    else if(stockPrice.lastPrice == stockPrice.r)
+                    else if (stockPrice.lastPrice == stockPrice.r)
                     {
                         TrackModels[idx].JugdeColor = JugdeColor.Yellow;
                     }
@@ -298,7 +298,7 @@ namespace StockTrack
                     {
                         TrackModels[idx].JugdeColor = JugdeColor.Red;
                     }
-                    else if(stockPrice.lastPrice == stockPrice.f)
+                    else if (stockPrice.lastPrice == stockPrice.f)
                     {
                         TrackModels[idx].JugdeColor = JugdeColor.Cyan;
                     }
@@ -313,9 +313,8 @@ namespace StockTrack
 
         public StockCompany GetCompany(string symbols)
         {
-            if (StockInfos == null) 
+            if (StockInfos is null)
                 return null;
-
             return StockInfos.data?.Where((it) => it.code == symbols).FirstOrDefault();
         }
 

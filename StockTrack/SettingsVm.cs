@@ -28,13 +28,7 @@ namespace StockTrack
             InitClass();
         }
 
-        public static SettingsVm Instance
-        {
-            get
-            {
-                return _lazy.Value;
-            }
-        }
+        public static SettingsVm Instance => _lazy.Value;
 
         private string _urlCode;
         public string UrlCode
@@ -94,7 +88,6 @@ namespace StockTrack
             catch (Exception ex)
             {
                 log.Error("Parse Priod time failed.", ex);
-                throw ex;
             }            
         }
 

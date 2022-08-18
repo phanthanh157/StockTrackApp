@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace StockTrack.view.cnv
@@ -15,11 +11,11 @@ namespace StockTrack.view.cnv
             var typeColor = (StatusConnected)value;
             string src = "./image/bullet_red.png";
 
-            if(typeColor == StatusConnected.Connected)
+            if (typeColor == StatusConnected.Connected)
             {
                 src = "./image/bullet_green.png";
             }
-         
+
             return src;
         }
 

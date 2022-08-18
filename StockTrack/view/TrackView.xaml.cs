@@ -34,22 +34,24 @@ namespace StockTrack.view
         {
             if(e.Key == Key.Return)
             {
-                if (trackVm == null) return;
+                if (trackVm == null)
+                    return;
 
                 string symbol = txtSearchSymbol.Editor.Text;
 
                 var company = trackVm.GetCompany(symbol);
 
-                if (company == null) {
+                if (company is null) {
                     log.Error("cannot get comapany data");
                     return;
                 };
-                var trackDataObj = TrackData.Instance;
- 
 
-                if(trackDataObj.Exits(symbol))
+                var trackDataObj = TrackData.Instance;
+
+                common.Utils.Check(trackDataObj);
+
+                if (trackDataObj.Exits(symbol))
                 {
-                    //MessageBox.Show("Symbol: [" + symbol + "] with type: [" + buyOrSale.ToString() + "] is exits!", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     MsgBox.Instance.Show("Symbol: [" + symbol + "]  is exits!", TypeMsgBox.Warning);
                     return;
                 }
@@ -73,6 +75,7 @@ namespace StockTrack.view
                 };
 
                 trackDataObj.AddTrack(trackModel);
+
                 txtSearchSymbol.Editor.Text = string.Empty;
             }
         }
