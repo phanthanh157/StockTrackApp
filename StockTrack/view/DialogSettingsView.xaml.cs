@@ -22,8 +22,7 @@ namespace StockTrack.view
         public DialogSettingsView()
         {
             InitializeComponent();
-            SettingsVm settingsVm = SettingsVm.Instance;
-            this.DataContext = settingsVm;
+            this.DataContext = SettingsVm.Instance;
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)

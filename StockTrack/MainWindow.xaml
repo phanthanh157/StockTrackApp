@@ -55,11 +55,11 @@
                         <TextBlock Text="{Binding TotalSymbols}" Foreground="White" VerticalAlignment="Center"/>
                     </WrapPanel>
                 </StatusBarItem>
-                <StatusBarItem Grid.Column="2">
+                <!--<StatusBarItem Grid.Column="2">
                     <WrapPanel>
                         <Button Content="OpenChart" Click="Button_Click" />
                     </WrapPanel>
-                </StatusBarItem>
+                </StatusBarItem>-->
             </StatusBar>
         </Grid>
     </Grid>

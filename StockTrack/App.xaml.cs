@@ -19,15 +19,11 @@ namespace StockTrack
             if (!loadTrack)
             {
                 log.Error("Load track failed!");
-
                 System.Environment.Exit(0);
             }
 
             MainWindow window = new MainWindow();
             var mainVm = MainWindowViewModel.Instance;
-
-
-
 
             window.Closed += (sender, ev) =>
             {
@@ -38,10 +34,8 @@ namespace StockTrack
 
             MsgBox.Instance.InitClass();
 
-
             mainVm.ExcuteTask();
             window.DataContext = mainVm;
-
 
             window.Show();
         }

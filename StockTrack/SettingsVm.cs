@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using StockTrack.command;
@@ -17,8 +11,14 @@ namespace StockTrack
         private static readonly log4net.ILog log = LogHelper.GetLogger();
         private static readonly Lazy<SettingsVm> _lazy = new Lazy<SettingsVm>(() => new SettingsVm());
 
-        public event EventHandler SaveChanged;
-        private void OnSaveChanged(EventArgs e)
+        public enum kSetting
+        {
+            SaveChanged,
+            DeleteDb
+        }
+
+        public event EventHandler<kSetting> SaveChanged;
+        private void OnSaveChanged(kSetting e)
         {
             SaveChanged?.Invoke(this, e);
         }
@@ -36,7 +36,7 @@ namespace StockTrack
             get { return _urlCode; }
             set
             {
-                if(value != _urlCode)
+                if (value != _urlCode)
                 {
                     _urlCode = value;
                     OnPropertyChanged();
@@ -73,7 +73,7 @@ namespace StockTrack
             }
         }
 
-  
+
 
 
         public void InitClass()
@@ -88,7 +88,7 @@ namespace StockTrack
             catch (Exception ex)
             {
                 log.Error("Parse Priod time failed.", ex);
-            }            
+            }
         }
 
 
@@ -97,9 +97,9 @@ namespace StockTrack
         {
             get
             {
-                if(_commandSave == null)
+                if (_commandSave == null)
                 {
-                     _commandSave = new RelayCommand((x) => CommandSaveHandle(x));
+                    _commandSave = new RelayCommand((x) => CommandSaveHandle(x));
                 }
                 return _commandSave;
             }
@@ -107,7 +107,7 @@ namespace StockTrack
 
         private void CommandSaveHandle(object x)
         {
-            if(x is null)
+            if (x is null)
             {
                 log.Error("Error not get object command save");
                 return;
@@ -119,7 +119,7 @@ namespace StockTrack
             AppSettings.InsertOrUpdate("STOCK_DATA", UrlData);
             AppSettings.InsertOrUpdate("PERIOD_TIME", IntervalRefresh.ToString());
 
-            OnSaveChanged(EventArgs.Empty);
+            OnSaveChanged(kSetting.SaveChanged);
 
             settingDialog.Close();
         }
@@ -151,12 +151,13 @@ namespace StockTrack
 
             var qa = MessageBox.Show("Do you want delete all symbols?", "Delete Symbols", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-            if(qa == MessageBoxResult.Yes)
+            if (qa == MessageBoxResult.Yes)
             {
                 trackData.RemoveAllTrack();
+                OnSaveChanged(kSetting.DeleteDb);
                 settingDialog.Close();
             }
-           
+
         }
     }
 }

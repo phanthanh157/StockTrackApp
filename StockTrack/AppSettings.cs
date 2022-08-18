@@ -12,7 +12,6 @@ namespace StockTrack
             {
                 var appSettings = ConfigurationManager.AppSettings;
                 result = appSettings[key] ?? "Not Found";
-                //log.InfoFormat(key,"=",result);
             }
             catch (ConfigurationErrorsException)
             {

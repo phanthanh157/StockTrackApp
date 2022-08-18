@@ -8,7 +8,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using StockTrack.command;
 using StockTrack.model;
-
+using static StockTrack.SettingsVm;
 
 namespace StockTrack
 {
@@ -98,10 +98,22 @@ namespace StockTrack
             LoadData();
         }
 
-        private void SettingVm_SaveChanged(object sender, EventArgs e)
+        private void SettingVm_SaveChanged(object sender, kSetting e)
         {
-            // CancelTrack();
-            // RunTrack();
+            CancelTrack();
+
+            switch (e)
+            {
+                case kSetting.SaveChanged:
+                    break;
+                case kSetting.DeleteDb:
+                    TrackModels.Clear();
+                    break;
+                default:
+                    break;
+            }
+
+            RunTrack();
         }
 
         private void LoadData()
@@ -124,8 +136,11 @@ namespace StockTrack
             {
                 case TrackDataResult.AddSuccess:
                     MsgBox.Instance.Show("Add symbol [" + e.Data.Symbol + "] successfull!", TypeMsgBox.Success);
-                    TrackModels.Add(e.Data);
-                    Symbols = TrackModels.Select(it => it.Symbol).ToArray();
+                    lock (_trackLock)
+                    {
+                        TrackModels.Add(e.Data);
+                        Symbols = TrackModels.Select(it => it.Symbol).ToArray();
+                    }
                     break;
                 //case TrackDataResult.WriteFailed:
                 //    MsgBox.Instance.Show("Add symbol [" + e.Data.Symbol + "] failed!", TypeMsgBox.Error);
@@ -177,6 +192,8 @@ namespace StockTrack
         {
             _tokenSource.Cancel();
             _tokenSource.Dispose();
+            _tokenSource = new CancellationTokenSource();
+            _token = _tokenSource.Token;
         }
 
         private async Task PeriodTrackAsync(TimeSpan interval, CancellationToken cancellationToken)
@@ -245,6 +262,7 @@ namespace StockTrack
                 MainWindowViewModel.Instance.StatusConnect = StatusConnected.Disconnected;
                 return;
             }
+
             MainWindowViewModel.Instance.StatusConnect = StatusConnected.Connected;
 
             lock (_trackLock)

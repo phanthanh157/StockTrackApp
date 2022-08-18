@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using StockTrack.model;
 
 namespace StockTrack.view
@@ -22,26 +11,24 @@ namespace StockTrack.view
     public partial class TrackView : UserControl
     {
         private static readonly log4net.ILog log = LogHelper.GetLogger();
-        private TrackVm trackVm = null;
+        private TrackVm _trackVm = null;
         public TrackView()
         {
             InitializeComponent();
-            trackVm = TrackVm.Instance;
-            this.DataContext = trackVm;
+            _trackVm = TrackVm.Instance;
+            this.DataContext = _trackVm;
         }
 
         private void txtSearchSymbol_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.Return)
+            if (e.Key == Key.Return)
             {
-                if (trackVm == null)
-                    return;
-
                 string symbol = txtSearchSymbol.Editor.Text;
 
-                var company = trackVm.GetCompany(symbol);
+                var company = _trackVm.GetCompany(symbol);
 
-                if (company is null) {
+                if (company is null)
+                {
                     log.Error("cannot get comapany data");
                     return;
                 };
@@ -66,9 +53,9 @@ namespace StockTrack.view
                     Ref = 0,
                     Ceil = 0,
                     Floor = 0,
-                    LastPrice =0,
+                    LastPrice = 0,
                     LastVolume = 0,
-                    OT =string.Empty,
+                    OT = string.Empty,
                     Target1 = 0,
                     Target2 = 0,
                     JugdeColor = JugdeColor.Gray
@@ -82,7 +69,7 @@ namespace StockTrack.view
 
         private void CommandRemoveTrack_Click(object sender, RoutedEventArgs e)
         {
-            if (trackVm == null) return;
+            if (_trackVm == null) return;
             //Get the clicked MenuItem
             var menuItem = (MenuItem)sender;
 
@@ -96,7 +83,7 @@ namespace StockTrack.view
             //to the DataGrid (and has subject and state as property)
             var trackModel = (TrackModel)item.SelectedCells[0].Item;
 
-            trackVm.RemoveTrack(trackModel);
+            _trackVm.RemoveTrack(trackModel);
 
         }
 
